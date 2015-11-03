@@ -1,8 +1,8 @@
 # WearCompanionLibrary (WCL)
-* This is an evolving library to help Wear developers with those tasks that they need to deal with often.
-  Features provided in this library will change over time while backward compatibility will be maintained
-  as much as possible. This library can be added to your project as a module and can be used on your
-  wear or mobile modules, as an added dependency (for certain features, it needs to be added to both).
+This is an evolving library to help Wear developers with those tasks that they need to deal with often.
+Features provided in this library will change over time while backward compatibility will be maintained
+as much as possible. This library can be added to your project as a module and can be used on your
+wear or mobile modules, as an added dependency (for certain features, it needs to be added to both).
 
 ## Dependencies
 * google-play-services (wearable) library from the Android SDK (version 8.1+)
