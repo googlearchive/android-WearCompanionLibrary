@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Voice recorder related colors -->
+    <color name="wcl_voice_recorder_off">#FFC8D4C8</color>
+    <color name="wcl_voice_recorder_on">#FF03A9F4</color>
+    <color name="wcl_voice_recorder_ripple">#71c715</color>
+</resources>

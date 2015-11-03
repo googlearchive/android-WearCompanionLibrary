@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2015 Google Inc. All Rights Reserved.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ imitations under the License.
+  -->
+
+<resources>
+    <!-- Style for the SelectableWearableListAdapter -->
+    <style name="WCLList">
+        <item name="android:background">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/wcl_list_text_color</item>
+        <item name="android:fontFamily">sans-serif-condensed-light</item>
+    </style>
+
+    <!-- Resources for the SelectableWearableListAdapter -->
+    <color name="wcl_list_text_color">#434343</color>
+    <color name="wcl_list_circle_selected_color">#2878ff</color>
+    <color name="wcl_list_circle_faded_color">#c1c1c1</color>
+    <color name="wcl_list_circle_border_color">@color/light_grey</color>
+
+    <!-- Dimensions for the SelectableWearableListAdapter -->
+    <dimen name="wcl_list_circle_radius">15dp</dimen>
+    <dimen name="wcl_list_circle_radius_selected">20dp</dimen>
+    <dimen name="wcl_list_circle_diameter_max">42dp</dimen>
+    <dimen name="wcl_list_circle_border_width">2dp</dimen>
+
+    <!-- Used the SelectableWearableListAdapter -->
+    <integer name="wcl_action_text_faded_alpha">40</integer>
+
+    <!-- Used in styling the header for the WearableListView -->
+    <color name="wcl_list_header_text_color">@color/white</color>
+    <color name="wcl_list_header_bg_color">@color/wcl_list_circle_selected_color</color>
+    <dimen name="wcl_list_header_height">60dp</dimen>
+
+</resources>
