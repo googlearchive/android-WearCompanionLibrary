@@ -23,5 +23,9 @@ Please read and follow the steps in the CONTRIBUTING.md
 See LICENSE
 
 ## Change List
+1.1
+ * Updated WearManager#putImageData() to accept a parameter for urgency
+ * Updated the build file to use the latest Play Services version
+
 1.0
  * Initial release

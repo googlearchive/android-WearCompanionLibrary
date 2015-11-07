@@ -320,11 +320,13 @@ public class WearManager {
      * @param bitmap The bitmap to be added.
      * @param path The path for the data item.
      * @param key The key to be used for this item in the data map.
+     * @param isUrgent If {@code true}, request will be set as urgent.
      * @param addTimestamp If {@code true}, adds a timestamp to the data map to always create a new
      * data item even if an identical data item with the same bitmap has already been added
      * @param callback The callback to be notified of the result (can be {@code null}).
      */
-    public void putImageData(Bitmap bitmap, String path, String key, boolean addTimestamp,
+    public void putImageData(Bitmap bitmap, String path, String key, boolean isUrgent,
+            boolean addTimestamp,
             @Nullable ResultCallback<? super DataApi.DataItemResult> callback) {
         Utils.assertNotNull(bitmap, "bitmap");
         Utils.assertNotEmpty(path, "path");
@@ -336,6 +338,9 @@ public class WearManager {
             dataMap.getDataMap().putLong(Constants.KEY_TIMESTAMP, new Date().getTime());
         }
         PutDataRequest request = dataMap.asPutDataRequest();
+        if (isUrgent) {
+            request.setUrgent();
+        }
         putDataItem(request, callback);
     }
 
