@@ -627,6 +627,9 @@ public class WearManager {
      */
     private void onConnected(Bundle bundle) {
         Utils.LOGD(TAG, "Google Api Connected");
+        for (WearConsumer consumer : mWearConsumers) {
+            consumer.onWearableApiConnected();
+        }
         addCapabilities(mCapabilitiesToBeAdded);
         Wearable.CapabilityApi.getAllCapabilities(mGoogleApiClient,
                 CapabilityApi.FILTER_REACHABLE).setResultCallback(
@@ -644,6 +647,7 @@ public class WearManager {
                                     mCapabilityToNodesMapping.put(capability, info.getNodes());
                                 }
                             }
+                            onConnectedInitialCapabilitiesReceived();
                         } else {
                             Log.e(TAG, "getAllCapabilities(): Failed to get all the capabilities");
                         }
@@ -656,12 +660,10 @@ public class WearManager {
                         if (getConnectedNodesResult.getStatus().isSuccess()) {
                             mConnectedNodes.clear();
                             mConnectedNodes.addAll(getConnectedNodesResult.getNodes());
+                            onConnectedInitialNodesReceived();
                         }
                     }
                 });
-        for (WearConsumer consumer : mWearConsumers) {
-            consumer.onWearableApiConnected();
-        }
     }
 
     /**
@@ -1111,6 +1113,16 @@ public class WearManager {
     }
 
     /**
+     * Clients can register to {@link WearConsumer#onWearableInitialConnectedNodesReceived()}.
+     */
+    void onConnectedInitialNodesReceived() {
+        Utils.LOGD(TAG, "onConnectedInitialNodesReceived");
+        for (WearConsumer consumer : mWearConsumers) {
+            consumer.onWearableInitialConnectedNodesReceived();
+        }
+    }
+
+    /**
      * Clients can register to {@link WearConsumer#onWearableCapabilityChanged(String, Set)}.
      */
     void onCapabilityChanged(CapabilityInfo capabilityInfo) {
@@ -1119,6 +1131,15 @@ public class WearManager {
         mCapabilityToNodesMapping.put(capability, nodes);
         for (WearConsumer consumer : mWearConsumers) {
             consumer.onWearableCapabilityChanged(capability, nodes);
+        }
+    }
+
+    /**
+     * Clients can register to {@link WearConsumer#onWearableInitialConnectedCapabilitiesReceived().
+     */
+    void onConnectedInitialCapabilitiesReceived() {
+        for (WearConsumer consumer : mWearConsumers) {
+            consumer.onWearableInitialConnectedCapabilitiesReceived();
         }
     }
 

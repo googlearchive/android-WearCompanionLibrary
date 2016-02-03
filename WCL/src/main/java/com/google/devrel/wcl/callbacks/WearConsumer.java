@@ -73,6 +73,11 @@ public interface WearConsumer extends WearFileTransfer.OnWearableChannelOutputSt
     void onWearableCapabilityChanged(String capability, Set<Node> nodes);
 
     /**
+     * Called when initial capabilities are received after google api connection.
+     */
+    void onWearableInitialConnectedCapabilitiesReceived();
+
+    /**
      * Called when the result of {@link WearManager#sendMessage(String, String, byte[])}
      * (or other variants of that call) is available.
      *
@@ -156,6 +161,11 @@ public interface WearConsumer extends WearFileTransfer.OnWearableChannelOutputSt
      * Called when the list of connected nodes changes.
      */
     void onWearableConnectedNodes(List<Node> connectedNodes);
+
+    /**
+     * Called when initial list of connected nodes is received - so that you can send messages to it.
+     */
+    void onWearableInitialConnectedNodesReceived();
 
     /**
      * Called when a connected peer disconnects.
