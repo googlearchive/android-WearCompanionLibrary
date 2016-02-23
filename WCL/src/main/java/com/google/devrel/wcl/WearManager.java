@@ -303,12 +303,12 @@ public class WearManager {
      * A {@code timeoutInMillis} is required to specify the
      * maximum length of time, in milliseconds, that the thread should be blocked.
      */
-    public int putDataItemSynchronous(PutDataRequest request, long timeoutInMillis) {
+    public DataApi.DataItemResult putDataItemSynchronous(PutDataRequest request, long timeoutInMillis) {
         assertApiConnectivity();
         Utils.assertNonUiThread();
         DataApi.DataItemResult result = Wearable.DataApi.putDataItem(mGoogleApiClient, request)
                 .await(timeoutInMillis, TimeUnit.MILLISECONDS);
-        return result.getStatus().getStatusCode();
+        return result;
     }
 
     /**
@@ -328,6 +328,11 @@ public class WearManager {
     public void putImageData(Bitmap bitmap, String path, String key, boolean isUrgent,
             boolean addTimestamp,
             @Nullable ResultCallback<? super DataApi.DataItemResult> callback) {
+        PutDataRequest request = createImagePutDataRequest(bitmap, path, key, isUrgent, addTimestamp);
+        putDataItem(request, callback);
+    }
+
+    private PutDataRequest createImagePutDataRequest(Bitmap bitmap, String path, String key, boolean isUrgent, boolean addTimestamp) {
         Utils.assertNotNull(bitmap, "bitmap");
         Utils.assertNotEmpty(path, "path");
         Utils.assertNotEmpty(key, "key");
@@ -341,7 +346,25 @@ public class WearManager {
         if (isUrgent) {
             request.setUrgent();
         }
-        putDataItem(request, callback);
+        return request;
+    }
+
+    /**
+     * Adds a {@code bitmap} image to a data item synchronously.
+     * (see {@link #putDataItemSynchronous(PutDataRequest, long)} for details).
+     *
+     * @param bitmap       The bitmap to be added.
+     * @param path         The path for the data item.
+     * @param key          The key to be used for this item in the data map.
+     * @param isUrgent     If {@code true}, request will be set as urgent.
+     * @param addTimestamp If {@code true}, adds a timestamp to the data map to always create a new
+     *                     data item even if an identical data item with the same bitmap has already been added
+     * @param timeoutInMillis is required to specify the maximum length of time, in milliseconds, that the thread should be blocked
+     */
+    public DataApi.DataItemResult putImageDataSynchronous(Bitmap bitmap, String path, String key, boolean isUrgent,
+                                                          boolean addTimestamp, long timeoutInMillis) {
+        PutDataRequest request = createImagePutDataRequest(bitmap, path, key, isUrgent, addTimestamp);
+        return putDataItemSynchronous(request, timeoutInMillis);
     }
 
     /**
