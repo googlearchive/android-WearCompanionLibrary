@@ -42,6 +42,16 @@ import java.util.Set;
 public abstract class AbstractWearConsumer implements WearConsumer {
 
     @Override
+    public void onWearableInitialConnectedCapabilitiesReceived() {
+        //no-op
+    }
+
+    @Override
+    public void onWearableInitialConnectedNodesReceived() {
+        //no-op
+    }
+
+    @Override
     public void onWearableAddCapabilityResult(int statusCode) {
         //no-op
     }
