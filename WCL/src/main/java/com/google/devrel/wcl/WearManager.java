@@ -29,6 +29,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -1172,13 +1173,50 @@ public class WearManager {
                                             Log.e(TAG, "receiveFile(): Failed to receive file with "
                                                     + "status code = " + statusCode
                                                     + ", and status: " + status.getStatus());
-                                        } else if (size != outFile.length()) {
-                                            Log.e(TAG, "receiveFile(): Size of the transferred "
-                                                    + "file doesn't match the original size");
-                                        }
-                                        for (WearConsumer consumer : mWearConsumers) {
-                                            consumer.onWearableFileReceivedResult(statusCode,
-                                                    requestId, outFile, name);
+
+                                            // Notify consumers of the failure
+                                            for (WearConsumer consumer : mWearConsumers) {
+                                                consumer.onWearableFileReceivedResult(statusCode,
+                                                        requestId, outFile, name);
+                                            }
+                                        } else {
+                                            // Add a listener to be notified when the transfer is over
+                                            channel.addListener(mGoogleApiClient, new ChannelApi.ChannelListener() {
+                                                @Override
+                                                public void onChannelOpened(Channel channel) {}
+
+                                                @Override
+                                                public void onChannelClosed(Channel channel, int closeReason,
+                                                                            int appSpecificErrorCode) {}
+
+                                                @Override
+                                                public void onInputClosed(Channel channel, int closeReason,
+                                                                          int appSpecificErrorCode) {
+                                                    // File transfer is finished
+                                                    int resultStatusCode;
+                                                    if (closeReason != CLOSE_REASON_NORMAL) {
+                                                        Log.e(TAG, "receiveFile(): Failed to receive file with "
+                                                                + "status closeReason = " + closeReason
+                                                                + ", and appSpecificErrorCode: " + appSpecificErrorCode);
+                                                        resultStatusCode = CommonStatusCodes.ERROR;
+                                                    } else if (size != outFile.length()) {
+                                                        Log.e(TAG, "receiveFile(): Size of the transferred "
+                                                                + "file doesn't match the original size");
+                                                        resultStatusCode = CommonStatusCodes.ERROR;
+                                                    } else {
+                                                        resultStatusCode = CommonStatusCodes.SUCCESS;
+                                                    }
+                                                    // Notify consumers
+                                                    for (WearConsumer consumer : mWearConsumers) {
+                                                        consumer.onWearableFileReceivedResult(resultStatusCode,
+                                                                requestId, outFile, name);
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onOutputClosed(Channel channel, int closeReason,
+                                                                           int appSpecificErrorCode) {}
+                                            });
                                         }
                                     }
                                 });
