@@ -409,7 +409,7 @@ public class WearManager {
     }
 
     /**
-     * Retrieves data items asynchronously from the Android Wear network. A {@code timeoutInMillis}
+     * Retrieves data items synchronously from the Android Wear network. A {@code timeoutInMillis}
      * is required to specify the maximum length of time, in milliseconds, that the thread should be
      * blocked. Caller needs to call {@code release()} on the returned {@link DataItemBuffer} when
      * done.
